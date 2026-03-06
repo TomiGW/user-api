@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+
+  api:
+    build: .
+    container_name: user-api
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      MONGO_URI: ${MONGO_URI}
+    depends_on:
+      - mongo
+    command: npm run dev
+
+  mongo:
+    image: mongo:7
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USER}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_PASSWORD}
+    depends_on:
+      - mongo
+
+volumes:
+  mongo_data:

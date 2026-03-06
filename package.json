@@ -1,0 +1,27 @@
+{
+  "name": "user-api",
+  "version": "1.0.0",
+  "description": "User API",
+  "main": "dist/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --poll --transpile-only src/server.ts",
+    "build": "tsc",
+    "start": "ts-node-dev src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^4.22.1",
+    "mongoose": "^9.2.4"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.19.15",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  }
+}
