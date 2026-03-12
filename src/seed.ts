@@ -1,6 +1,10 @@
 import { User } from "../src/models/user";
 import jwt from "jsonwebtoken";
 import readline from "readline";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -16,6 +20,8 @@ async function seed() {
     }
 
     try {
+      await mongoose.connect(process.env.MONGO_URI!);
+      console.log("MongoDB connected");
       const superAdmin = new User({
           name: "admin",
           cuit: "0",
@@ -33,6 +39,9 @@ async function seed() {
       await superAdmin.save();
       console.log("Admin user created");
       console.log(`TOKEN: ${jwt.sign({sub: superAdmin._id.toString()}, process.env.SECRET_API_KEY!)}`);
+
+      await mongoose.disconnect();
+      console.log("MongoDB disconnected");
     } catch (error) {
       console.error("Interal Error:", error);
       process.exit(1);
